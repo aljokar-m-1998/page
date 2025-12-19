@@ -11,49 +11,49 @@
 <style>
     /* ... (CSS remains mostly the same for UI/Layout) ... */
     :root { --c-bg: #1a1a1a; --c-ui: rgba(0,0,0,0.9); --c-acc: #00f0ff; --c-txt: #eee; --font: 'Courier New', monospace; }
-    
+
     * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; touch-action: none; user-select: none; -webkit-user-select: none; outline: none; }
     body, html { margin: 0; padding: 0; width: 100%; height: 100%; background: var(--c-bg); overflow: hidden; font-family: var(--font); color: var(--c-txt); }
-    
+
     #app { position: relative; width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; background: #000; }
     canvas { display: block; width: 100%; height: 100%; image-rendering: pixelated; }
-    
+
     #ui { position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 10; display: flex; flex-direction: column; }
-    
+
     .screen { position: absolute; inset: 0; background: var(--c-ui); backdrop-filter: blur(4px); display: flex; flex-direction: column; align-items: center; justify-content: center; pointer-events: auto; transition: opacity 0.2s, visibility 0.2s; z-index: 20; padding: 20px; text-align: center; }
     .hidden { opacity: 0; pointer-events: none; visibility: hidden; }
-    
+
     h1 { font-size: 3rem; color: var(--c-acc); text-shadow: 0 4px 0 #000; margin: 0 0 10px; text-transform: uppercase; letter-spacing: -2px; }
     h2 { font-size: 1.2rem; color: #aaa; margin-bottom: 30px; }
     .panel { background: rgba(255,255,255,0.05); padding: 20px; border-radius: 8px; border: 1px solid #444; width: 100%; max-width: 400px; }
-    
+
     button { background: #333; color: #fff; border: 2px solid #555; padding: 12px 24px; margin: 8px; font-size: 1rem; font-family: var(--font); font-weight: bold; cursor: pointer; text-transform: uppercase; width: 100%; max-width: 280px; transition: 0.1s; border-radius: 4px; box-shadow: 0 4px 0 #000; }
     button:active { transform: translateY(2px); box-shadow: 0 2px 0 #000; background: #444; border-color: var(--c-acc); }
     button.primary { border-color: var(--c-acc); color: var(--c-acc); }
     button:disabled { opacity: 0.5; cursor: not-allowed; transform: none; box-shadow: none; }
-    
+
     .row { display: flex; justify-content: space-between; align-items: center; width: 100%; margin: 8px 0; }
     input[type=range] { flex: 1; margin: 0 10px; }
-    
+
     #hud { padding: 10px 15px; width: 100%; display: flex; justify-content: space-between; pointer-events: none; text-shadow: 1px 1px 0 #000; font-weight: bold; background: linear-gradient(to bottom, rgba(0,0,0,0.6), transparent); }
     .stat-box { display: flex; flex-direction: column; gap: 4px; }
     .bar-wrap { width: 120px; height: 10px; background: #333; border: 1px solid #fff; position: relative; }
     .hp-fill { height: 100%; background: #f04; width: 100%; transition: width 0.2s; }
     .armor-fill { position: absolute; top: 0; left: 0; height: 100%; background: #00f0ff; width: 0%; transition: width 0.2s; opacity: 0.7; }
-    
+
     #dialogue { position: absolute; top: 0; left: 0; font-size: 10px; color: #000; background: #fff; border: 1px solid #000; padding: 2px 5px; border-radius: 8px; pointer-events: none; transform: translate(-50%, -100%); white-space: nowrap; max-width: 150px; text-align: center; }
 
     #controls { position: absolute; bottom: 0; left: 0; width: 100%; height: 160px; pointer-events: none; z-index: 15; padding: 10px; display: flex; justify-content: space-between; }
     .zone { pointer-events: auto; background: rgba(255,255,255,0.08); border: 2px solid rgba(255,255,255,0.15); border-radius: 16px; backdrop-filter: blur(2px); transition: 0.1s; display: flex; align-items: center; justify-content: center; font-size: 24px; color: rgba(255,255,255,0.5); }
     .zone:active, .zone.active { background: rgba(0,255,0,0.2); border-color: var(--c-acc); transform: scale(0.95); }
-    
+
     #dpad { display: flex; gap: 10px; height: 100%; width: 180px; }
     .d-btn { flex: 1; height: 100%; }
-    
+
     #actions { display: flex; gap: 5px; height: 100%; width: 250px; justify-content: flex-end; align-items: flex-end; } 
     .a-btn { width: 70px; height: 70px; border-radius: 50%; }
     .a-btn.big { width: 85px; height: 85px; background: rgba(100,255,100,0.1); }
-    
+
     @media(min-width: 800px) { #controls { display: none; } }
 </style>
 </head>
@@ -74,7 +74,7 @@
         </div>
         <div id="console"></div>
     </div>
-    
+
     <div id="pause-icon">||</div>
 
     <div id="controls">
@@ -105,11 +105,11 @@
         <h2>Use your Score to upgrade!</h2>
         <div class="panel">
             <pre id="shop-status" style="margin-bottom: 20px; color: var(--c-acc); font-weight: bold; text-align: left;"></pre>
-            
+
             <button id="btn-buy-damage" data-cost="500">Upgrade Damage (+5) - 500 Pts</button>
-            <button id="btn-buy-hp" data-cost="1000">Buy Max HP (+50) - 1000 Pts</button>
+            <button id="btn-buy-hp" data-cost="1000">Buy Max HP (+500) - 1000 Pts</button>
             <button id="btn-buy-speed" data-cost="1500">Upgrade Movement Speed (+25) - 1500 Pts</button>
-            
+
             <button onclick="UI.back()">Back</button>
         </div>
     </div>
@@ -139,7 +139,7 @@
         <div class="panel">
             <p>Game Version: V6.1 - Enhanced Graphics and Combat</p>
             <p>A fast-paced pixel platformer focused on fair movement, combat and upgrades.</p>
-            <p style="color:#00f0ff; font-weight:bold;">Development: Mahmoud Hassn & AI Assistant</p>
+            <p style="color:#00f0ff; font-weight:bold;">Development: Mahmoud Hassn & Anya</p>
             <button onclick="UI.back()">Back</button>
         </div>
     </div>
@@ -179,7 +179,7 @@ const C = {
     // PHYSICS: Lower G and Higher JUMP for much easier, more responsive platforming.
     G: 1200, T_VEL: 900, PLR_SPD: 350, 
     JUMP: -600, DBL_JUMP: -450, 
-    
+
     TILE: 40, WIDTH: 0, HEIGHT: 0, MAX_LEVEL: 30,
     FIXED_DT: 1/60, 
     MELEE_RANGE: 60, 
@@ -305,7 +305,7 @@ const Aud = (() => {
 const Inp = (() => {
     const s = { l:0, r:0, j:0, f:0, m:0 }; 
     const kMap = { ArrowLeft:'l', KeyA:'l', ArrowRight:'r', KeyD:'r', Space:'j', KeyZ:'j', KeyX:'f', KeyC:'m' };
-    
+
     const handler = (e, val) => { if(kMap[e.code]) s[kMap[e.code]] = val; };
     window.addEventListener('keydown', e => handler(e, 1));
     window.addEventListener('keyup', e => handler(e, 0));
@@ -321,7 +321,7 @@ const Inp = (() => {
             active ? tar.classList.add('active') : tar.classList.remove('active');
         }
     };
-    
+
     const ctrls = document.getElementById('controls');
     ctrls.addEventListener('touchstart', e => touch(e, true), {passive:false});
     ctrls.addEventListener('touchend', e => touch(e, false));
@@ -353,7 +353,7 @@ const GFX = (() => {
             c.fillStyle='#fff'; c.fillRect(13,18,6,6);
             c.fillStyle='#f0f'; c.fillRect(15,22,2,2); // Nose
         });
-        
+
         // Walker Enemy (Simple red blob - less detailed, more pixelated)
         mk('enm', 32, 24, (c,w,h) => {
             c.fillStyle='#f44'; c.fillRect(4,4,24,16);
@@ -376,7 +376,7 @@ const GFX = (() => {
             c.fillStyle='#c00'; c.fillRect(0, 10, 40, 30);
             c.fillStyle='#800'; c.fillRect(5, 5, 30, 10);
         });
-        
+
         // Tile (Standard platform)
         mk('tile', 40, 40, (c,w,h) => {
             c.fillStyle='#4a4'; c.fillRect(0,0,w,8); // Grass top
@@ -402,12 +402,12 @@ const GFX = (() => {
         // Projectiles 
         mk('proj', 8, 8, (c,w,h) => { c.fillStyle='#8f8'; c.fillRect(0,0,8,8); }); // Player Proj (Green)
         mk('enmproj', 8, 8, (c,w,h) => { c.fillStyle='#f00'; c.fillRect(0,0,8,8); }); // Enemy Proj (Red)
-        
+
         // Powerups (Unchanged)
         mk('heal', 16, 16, (c,w,h) => { c.fillStyle='#0f0'; c.fillRect(3, 6, 10, 4); c.fillRect(6, 3, 4, 10); });
         mk('armr', 16, 16, (c,w,h) => { c.fillStyle='#00f0ff'; c.fillRect(0, 5, 16, 6); c.fillStyle='#fff'; c.fillRect(4, 7, 8, 2); });
         mk('bost', 16, 16, (c,w,h) => { c.fillStyle='#ff0'; c.beginPath(); c.moveTo(0,16); c.lineTo(16,8); c.lineTo(0,0); c.fill(); c.fillStyle='#f00'; c.beginPath(); c.moveTo(4,12); c.lineTo(12,8); c.lineTo(4,4); c.fill(); });
-        
+
         // Background assets (Unchanged)
         mk('tree', 64, 128, (c,w,h) => { c.fillStyle='#444'; c.fillRect(28,h/2,8,h/2); c.fillStyle='#777'; c.beginPath(); c.arc(32,h/2,30,0,7); c.fill(); });
         mk('bird', 16, 8, (c,w,h) => { c.fillStyle='#fff'; c.beginPath(); c.moveTo(0,4); c.lineTo(w/2,0); c.lineTo(w,4); c.lineTo(w/2,h); c.closePath(); c.fill(); });
@@ -431,12 +431,12 @@ const PG = (() => {
     const isReachable = (fromY, toY, dist, jumps=2) => {
         const T = C.TILE;
         const hDiff = fromY - toY; 
-        
+
         const D_MAX = 350; // Max horizontal distance (for full speed)
         const H_MAX = 200; // Max vertical height allowed (double jump)
 
         if (dist < 0) dist = Math.abs(dist); 
-        
+
         // 1. Check max horizontal distance (simple linear limit)
         if (dist > D_MAX + T/2) return false;
 
@@ -469,7 +469,7 @@ const PG = (() => {
         const baseLen = 70 + (idx*10); 
         const len = baseLen + rInt(-5, 15);
         const lvl = { w: len*C.TILE, tiles: [], ents: [], start:{x:100,y:0}, exit:{x:0,y:0} };
-        
+
         let h = 10; 
         let gap = 0; 
         let lastTileX = -1; 
@@ -480,13 +480,13 @@ const PG = (() => {
 
         for(let x=0; x<len; x++) {
             const isSafe = x < 5 || x > len-5;
-            
+
             if(isSafe) { gap = 0; }
             else if(gap > 0) { gap--; continue; }
 
             let makeGap = false;
             let makePlatform = false;
-            
+
             if(!isSafe) {
                  const roll = rand();
                  if(roll < 0.08) { makeGap = true; } // Slightly lower gap chance
@@ -497,7 +497,7 @@ const PG = (() => {
                     if(prevH === h) h = M.clamp(h + (rand() > 0.5 ? 1 : -1), 4, 16);
                  }
             }
-            
+
             let currentY = (20 - h) * T; 
 
             if(makeGap) {
@@ -510,12 +510,12 @@ const PG = (() => {
                 // FLOATING PLATFORM LOGIC
                 const platformW = rInt(2, 4); 
                 const platformX = x * T;
-                
+
                 let newH = M.clamp(h + rInt(-3, 3), 4, 16); 
                 let newY = (20 - newH) * T;
-                
+
                 let requiredDist = platformX - (lastTileX + T);
-                
+
                 // Reachability Check (Crucial for the "Feasible Platforming" goal)
                 if (requiredDist > 0 && !isReachable(lastTileY, newY, requiredDist)) {
                     let tries = 5;
@@ -526,12 +526,12 @@ const PG = (() => {
                         if(tries === 0) newY = lastTileY; 
                     }
                 }
-                
+
                 // Final Platform Placement
                 lvl.tiles.push({x:platformX, y:newY, w:platformW*T, h:T, t:'tile'});
                 lastTileX = platformX + platformW * T - T; 
                 lastTileY = newY;
-                
+
                 x += platformW; 
                 gap = rInt(1, 2); 
                 continue; 
@@ -539,7 +539,7 @@ const PG = (() => {
 
             // SOLID GROUND / TERRAIN SLOPE
             for(let y=20-h; y<25; y++) lvl.tiles.push({x:x*T, y:y*T, w:T, h:T, t:'tile'});
-            
+
             if (x * T > lastTileX) {
                 lastTileX = x * T; 
                 lastTileY = (20 - h) * T;
@@ -549,7 +549,7 @@ const PG = (() => {
             const topY = (20-h)*T;
             if(x>5 && x<len-5) {
                 const featureRoll = rand();
-                
+
                 if(featureRoll < 0.03*effectiveDiff) { // Spikes (Reduced chance)
                     lvl.ents.push({t:'spk', x:x*T, y:topY-T, w:T, h:T});
                 } else if(featureRoll < 0.15*effectiveDiff) { // Enemies
@@ -559,7 +559,7 @@ const PG = (() => {
                     if (enemyTypeRoll < 0.3) type = 'flenm'; 
                     else if (enemyTypeRoll < 0.6) type = 'shrenm'; 
                     else if (enemyTypeRoll > 0.8 && effectiveDiff > 5) type = 'tenm'; // Tank (Crawler)
-                    
+
                     const spawnY = (type === 'flenm') ? topY - rInt(4, 8) * T : topY - 40;
                     lvl.ents.push({t:type, x:x*T, y:spawnY, w:32, h:24, vx:50 * (rand()>0.5?1:-1)});
                 } else if(featureRoll < 0.20 * effectiveDiff && effectiveDiff > 3) { // Moving Platforms (Slightly less common)
@@ -579,7 +579,7 @@ const PG = (() => {
                 }
             }
         }
-        
+
         lvl.start.y = (20-10)*T - 100;
         lvl.exit = { x:(len-2)*T, y:0, w:80, h:2000 };
         lvl.tiles.push({x:-40, y:0, w:40, h:2000, t:'solid'});
@@ -597,7 +597,7 @@ const Dialogue = (() => {
     const bubble = document.getElementById('dialogue');
     let targetEnt = null;
     let timer = 0;
-    
+
     const messages = [
         "Rabbit stew!", "You're too slow!", "Think you can pass?", 
         "Pathetic.", "Jump or Die!", "My spot now!", "Die!", "Prepare to fall!",
@@ -626,7 +626,7 @@ const Dialogue = (() => {
             bubble.style.visibility = 'hidden';
         }
     };
-    
+
     const getRandomMsg = () => messages[Math.floor(Math.random() * messages.length)];
 
     return { show, update, getRandomMsg };
@@ -646,21 +646,21 @@ class Ent {
 
         this.x += this.vx * dt;
         this.col(tiles, 'x');
-        
+
         this.y += this.vy * dt;
         this.col(tiles, 'y');
-        
+
         if (this.vy !== 0) this.grounded = false;
     }
     col(tiles, axis) {
         const T = C.TILE;
         const dt = Game.getDT();
-        
+
         const minX = Math.floor((this.x - T) / T);
         const maxX = Math.ceil((this.x + this.w + T) / T);
         const minY = Math.floor((this.y - T) / T);
         const maxY = Math.ceil((this.y + this.h + T) / T);
-        
+
         const nearbyTiles = tiles.filter(t => 
             (t.t === 'tile' || t.t === 'mplt' || t.t === 'solid') && 
             t.x/T >= minX && t.x/T < maxX && 
@@ -670,7 +670,7 @@ class Ent {
         for(let t of nearbyTiles) {
             if(M.overlap(this, t)) {
                 if(this.t === 'spk' || this.t === 'coin' || this.t === 'heal' || this.t === 'armr' || this.t === 'bost') continue;
-                
+
                 if(axis === 'x') {
                     this.x = (this.x < t.x) ? t.x - this.w : t.x + t.w;
                     this.vx = 0;
@@ -692,11 +692,11 @@ class Ent {
     draw(ctx, cx) {
         if(this.x+this.w < cx || this.x > cx + ctx.canvas.width) return;
         const img = GFX.get(this.t);
-        
+
         ctx.save();
         const drawX = Math.floor(this.x - cx);
         const drawY = Math.floor(this.y);
-        
+
         if (this.vx < 0) { 
              ctx.scale(-1, 1);
              ctx.drawImage(img, -drawX - img.width, drawY);
@@ -704,7 +704,7 @@ class Ent {
              ctx.drawImage(img, drawX, drawY);
         }
         ctx.restore();
-        
+
         if(Store.data.opt.dbg) {
              ctx.strokeStyle = '#f0f'; ctx.strokeRect(drawX, drawY, this.w, this.h);
         }
@@ -729,7 +729,7 @@ class Player extends Ent {
     update(dt, tiles) {
         const i = Inp.get();
         const speed = this.currentSpeed + (this.speedBoost > 0 ? 100 : 0);
-        
+
         if(this.attackTimer > 0) this.attackTimer -= dt;
         if(this.attackTimer <= 0) this.isAttacking = false;
 
@@ -739,14 +739,14 @@ class Player extends Ent {
             this.vx *= 0.8;
             if (Math.abs(this.vx) < 10) this.vx = 0;
         }
-        
+
         // Jump (Perfected)
         if(i.j && !this.pj) {
             if(this.grounded) { this.vy = C.JUMP; this.jumps=1; this.grounded=false; Aud.sfx.jump(); }
             else if(this.jumps < 2) { this.vy = C.DBL_JUMP; this.jumps++; Aud.sfx.jump(); }
         }
         this.pj = i.j;
-        
+
         // Shoot 
         if(i.f && !this.pf) {
             this.facingDir = this.vx !== 0 ? Math.sign(this.vx) : this.facingDir;
@@ -761,11 +761,11 @@ class Player extends Ent {
         this.pm = i.m; 
 
         super.update(dt, tiles);
-        
+
         if(this.y > C.HEIGHT + 500) this.hurt(100);
         if(this.inv > 0) this.inv -= dt;
         if(this.speedBoost > 0) this.speedBoost -= dt;
-        
+
         this.hp = M.clamp(this.hp, 0, this.maxHP);
     }
 
@@ -791,15 +791,15 @@ class Player extends Ent {
 
     hurt(dmg) {
         if(this.inv > 0 || this.dead) return;
-        
+
         if (this.armor > 0) {
             const absorbed = Math.min(this.armor, dmg);
             this.armor -= absorbed;
             dmg -= absorbed;
         }
-        
+
         if (dmg > 0) this.hp -= dmg; 
-        
+
         this.inv = 1; Aud.sfx.hit();
         this.vy = -300;
         this.hp = M.clamp(this.hp, 0, this.maxHP); 
@@ -808,16 +808,16 @@ class Player extends Ent {
     heal(amount) { this.hp += amount; this.hp = M.clamp(this.hp, 0, this.maxHP); Aud.sfx.heal(); }
     addArmor(amount) { this.armor += amount; this.armor = M.clamp(this.armor, 0, 100); Aud.sfx.armor(); }
     speedBoostStart() { this.speedBoost = 5; Aud.sfx.boost(); }
-    
+
     draw(ctx, cx) {
         if(this.inv > 0 && Math.floor(Date.now()/50)%2) return;
-        
+
         ctx.save();
         const img = GFX.get('plr');
         const drawX = Math.floor(this.x - cx);
         const drawY = Math.floor(this.y);
         const currentDir = this.facingDir; 
-        
+
         if (currentDir < 0) { 
              ctx.scale(-1, 1);
              ctx.drawImage(img, -drawX - img.width, drawY);
@@ -858,7 +858,7 @@ class Enemy extends Ent {
     }
     update(dt, tiles) {
         super.update(dt, tiles);
-        
+
         if(this.grounded) {
              const T = C.TILE;
              const checkX = this.x + (this.vx > 0 ? this.w + 1 : -1); 
@@ -869,12 +869,12 @@ class Enemy extends Ent {
                  t.x < checkX && t.x + t.w > checkX && 
                  t.y < checkY && t.y + t.h > checkY
              );
-             
+
              if(onEdge) this.vx *= -1;
-             
+
              if (Math.abs(this.vx) !== this.baseVX) this.vx = this.baseVX * Math.sign(this.vx);
         }
-        
+
         this.dialogueTimer -= dt;
         if (this.dialogueTimer <= 0) {
             Dialogue.show(this, Dialogue.getRandomMsg());
@@ -893,10 +893,10 @@ class FlyerEnemy extends Enemy {
     update(dt, tiles) {
         this.flyPhase += dt * 3;
         this.vy = Math.sin(this.flyPhase) * 50;
-        
+
         this.x += this.vx * dt;
         this.col(tiles, 'x');
-        
+
         this.y += this.vy * dt;
 
         this.dialogueTimer -= dt;
@@ -916,36 +916,36 @@ class ShooterEnemy extends Enemy {
     }
     update(dt, tiles) {
         super.update(dt, tiles); 
-        
+
         this.shootTimer -= dt;
         if (this.shootTimer <= 0) {
             this.shoot();
             this.shootTimer = this.shootRate;
         }
     }
-    
+
     shoot() {
         const plr = Game.getPlr();
         if(!plr || this.dead) return;
-        
+
         // Shooter looks at the player before shooting
         const targetDir = plr.x + plr.w/2 < this.x + this.w/2 ? -1 : 1;
-        
+
         // Stop movement and shoot
         this.vx = 0; 
-        
+
         // Delay the shot slightly for better reaction/visualization
         setTimeout(() => {
             if (this.dead) return;
             const speed = 400;
             Game.spawnProj(this.x + this.w/2 + targetDir*10, this.y + this.h/2, targetDir * speed, 'enmproj');
             Aud.sfx.shoot();
-            
+
             // Resume walking after shooting
             setTimeout(() => { 
                 if(!this.dead) this.vx = this.baseVX * targetDir; 
             }, 300);
-            
+
         }, 100); 
     }
 }
@@ -975,16 +975,16 @@ class MovingPlatform {
     update(dt) {
         const totalDist = M.dist(this.p1, this.p2) || 1;
         this.prog += this.dir * (this.speed / totalDist) * dt;
-        
+
         let oldX = this.x, oldY = this.y;
-        
+
         if (this.prog >= 1) { this.prog = 1; this.dir = -1; }
         if (this.prog <= 0) { this.prog = 0; this.dir = 1; }
-        
+
         const f = this.prog;
         this.x = this.p1.x + (this.p2.x - this.p1.x) * f;
         this.y = this.p1.y + (this.p2.y - this.p1.y) * f;
-        
+
         this.vx = (this.x - oldX) / dt;
         this.vy = (this.y - oldY) / dt;
     }
@@ -1027,7 +1027,7 @@ class Projectile extends Ent {
         this.x += this.vx * dt;
         this.col(tiles, 'x'); 
         this.life -= dt;
-        
+
         if (this.vx === 0 && this.life > 0) this.dead = true; 
     }
 }
@@ -1040,13 +1040,13 @@ const BG_FX = (() => {
     const init = (lvlW, seed) => {
         trees = []; birds = [];
         const r = new Math.seedrandom(seed);
-        
+
         const viewW = C.WIDTH || window.innerWidth; 
-        
+
         for(let i=0; i<lvlW/C.TILE/5; i++) {
             trees.push({ x: r()*lvlW, y: C.HEIGHT*0.8 - r()*200, scale: r()*0.5 + 0.5 });
         }
-        
+
         for(let i=0; i<10; i++) {
             birds.push({ x: r()*lvlW, y: r()*C.HEIGHT*0.4 + 50, vx: r()*50 + 20, vy: 0, phase: r()*Math.PI*2 });
         }
@@ -1055,7 +1055,7 @@ const BG_FX = (() => {
     const update = (dt) => {
         const time = Date.now()/1000;
         const lvlW = Game.getLevel() ? Game.getLevel().w : 10000;
-        
+
         birds.forEach(b => {
             b.x += b.vx * dt;
             b.y += Math.sin(time + b.phase) * 50 * dt;
@@ -1083,7 +1083,7 @@ const BG_FX = (() => {
                     treeImg.height * size);
              });
         }
-        
+
         const birdImg = GFX.get('bird');
         if(birdImg) {
             birds.forEach(b => {
@@ -1108,7 +1108,7 @@ const Game = (() => {
     let camX = 0, lastT = 0;
     let accumulator = 0;
     let lastDT = C.FIXED_DT; 
-    
+
     const LOOT = { HEAL: 0.10, ARMOR: 0.05, BOOST: 0.05 };
 
     const init = () => {
@@ -1117,18 +1117,18 @@ const Game = (() => {
             ctx = cvs.getContext('2d', { alpha: false });
             resize();
             window.addEventListener('resize', resize);
-            
+
             Store.load(); 
             GFX.init();
             Aud.init();
-            
+
             plr = new Player(0,0);
-            
+
             UI.init();
-            
+
         } catch(e) { alert("Init Error: " + e.message); }
     };
-    
+
     const resize = () => {
         C.WIDTH = window.innerWidth;
         C.HEIGHT = window.innerHeight;
@@ -1150,11 +1150,11 @@ const Game = (() => {
             Store.data.p_speed = C.BASE_SPEED;
             Store.save();
         }
-        
+
         const diff = labCfg ? labCfg.d : M.clamp(1 + Math.floor(Store.data.lvl / 2), 1, 10);
         lvl = PG.generate(Store.data.lvl, Store.data.seed, diff);
         BG_FX.init(lvl.w, Store.data.seed + Store.data.lvl);
-        
+
         plr = new Player(lvl.start.x, lvl.start.y);
 
         ents = lvl.ents.map(e => {
@@ -1177,7 +1177,7 @@ const Game = (() => {
         });
 
         projs = [];
-        
+
         lvlBufferCanvas = document.createElement('canvas');
         lvlBufferCanvas.width = lvl.w;
         lvlBufferCanvas.height = C.HEIGHT; 
@@ -1186,13 +1186,13 @@ const Game = (() => {
 
         const tileImg = GFX.get('tile');
         const spikeImg = GFX.get('spk');
-        
+
         for(let t of lvl.tiles) {
             if(t.t === 'solid' || t.t === 'mplt') continue; 
             if(t.t === 'tile') bCtx.drawImage(tileImg, t.x, t.y);
             if(t.t === 'spk') bCtx.drawImage(spikeImg, t.x, t.y);
         }
-        
+
         state = 'play';
         Aud.startMus();
         loop(0);
@@ -1202,17 +1202,17 @@ const Game = (() => {
     const loop = (t) => {
         if(state !== 'play') return;
         raf = requestAnimationFrame(loop);
-        
+
         const delta = (t - lastT) / 1000;
         lastT = t;
         accumulator = M.clamp(accumulator + delta, 0, 0.2); 
-        
+
         while(accumulator >= C.FIXED_DT) {
             lastDT = C.FIXED_DT;
             update(C.FIXED_DT);
             accumulator -= C.FIXED_DT;
         }
-        
+
         render(accumulator / C.FIXED_DT);
     };
 
@@ -1220,7 +1220,7 @@ const Game = (() => {
         projs.push(new Projectile(x, y, vx, type)); 
         if(type === 'proj') Aud.sfx.shoot();
     };
-    
+
     const spawnLoot = (x, y) => {
         const roll = Math.random();
         if (roll < LOOT.HEAL) return new HealthPack(x, y);
@@ -1228,7 +1228,7 @@ const Game = (() => {
         if (roll < LOOT.HEAL + LOOT.ARMOR + LOOT.BOOST) return new SpeedBoost(x, y);
         return null;
     };
-    
+
     const entityHit = (e, damage) => {
         e.hp -= damage; 
         if (e.hp <= 0) {
@@ -1253,7 +1253,7 @@ const Game = (() => {
         projs.forEach(p => {
             p.update(dt, lvl.tiles);
             p.life -= dt;
-            
+
             if(p.t === 'proj') { 
                 ents.forEach(e => {
                     if((e.t === 'enm' || e.t === 'flenm' || e.t === 'shrenm' || e.t === 'tenm') && !e.dead && M.overlap(p, e)) { 
@@ -1272,14 +1272,14 @@ const Game = (() => {
 
         const oldEnts = ents;
         ents = [];
-        
+
         oldEnts.forEach(e => {
             if(e.dead) return;
             if(Math.abs(e.x - plr.x) > C.WIDTH*2 && e.t !== 'mplt') { ents.push(e); return; } 
-            
+
             if(e.t === 'mplt') e.update(dt); 
             else e.update(dt, lvl.tiles);
-            
+
             // Collision with Player
             if(M.overlap(plr, e)) {
                 if(e.t === 'coin') { e.dead = true; Store.data.score += 10; Aud.sfx.coin(); }
@@ -1300,22 +1300,22 @@ const Game = (() => {
 
         if(plr.hp <= 0) gameOver();
         if(lvl.exit && M.overlap(plr, lvl.exit)) win();
-        
+
         UI.hud(plr.hp, plr.armor, Store.data.score, Store.data.lvl, Store.data.seed);
     };
 
     const render = (interpolationFactor) => {
         BG_FX.draw(ctx, camX);
-        
+
         ctx.drawImage(lvlBufferCanvas, camX, 0, C.WIDTH, C.HEIGHT, 0, 0, C.WIDTH, C.HEIGHT);
 
         ents.forEach(e => { 
             if(e.t === 'mplt' || !e.dead) e.draw(ctx, camX); 
         });
-        
+
         projs.forEach(p => p.draw(ctx, camX));
         plr.draw(ctx, camX);
-        
+
         Dialogue.update(0, camX); 
 
         if(Store.data.opt.dbg) {
@@ -1337,9 +1337,9 @@ const Game = (() => {
 
     const win = () => {
         state = 'win'; cancelAnimationFrame(raf); Aud.stopMus(); Aud.sfx.win();
-        
+
         const nextLevel = Store.data.lvl + 1;
-        
+
         if(nextLevel > C.MAX_LEVEL) {
             Store.data.lvl = C.MAX_LEVEL; 
             document.getElementById('res-title').innerText = "GAME COMPLETE!";
@@ -1349,7 +1349,7 @@ const Game = (() => {
             document.getElementById('res-title').innerText = "LEVEL COMPLETE";
             document.getElementById('btn-next').style.display = 'inline-block';
         }
-        
+
         Store.save();
         UI.toScreen('scr-res');
         document.getElementById('res-stats').innerText = `Score: ${Store.data.score}`;
@@ -1373,14 +1373,14 @@ const UI = (() => {
     const el = (i) => document.getElementById(i);
     const screens = ['scr-start', 'scr-settings', 'scr-lab', 'scr-pause', 'scr-res', 'scr-about', 'scr-shop']; 
     let activeScreen = 'scr-start';
-    
+
     const init = () => {
         el('btn-play').onclick = () => Game.start(true);
         el('btn-continue').onclick = () => Game.start(false);
         el('btn-lab').onclick = () => toScreen('scr-lab');
-        
+
         el('btn-shop').onclick = () => { toScreen('scr-shop'); updateShopUI(); }; 
-        
+
         el('btn-settings').onclick = () => {
             el('opt-vol').value = Store.data.opt.vol;
             el('opt-mus').checked = Store.data.opt.mus;
@@ -1399,7 +1399,7 @@ const UI = (() => {
         };
         el('btn-next').onclick = () => Game.start(false);
         el('pause-icon').onclick = Game.pause;
-        
+
         // SHOP BUTTON HANDLERS
         el('btn-buy-damage').onclick = (e) => buyUpgrade(e.target.dataset.cost, 'damage', el('btn-buy-damage'), 5, 500);
         el('btn-buy-hp').onclick = (e) => buyUpgrade(e.target.dataset.cost, 'hp', el('btn-buy-hp'), 50, 1000);
@@ -1415,7 +1415,7 @@ const UI = (() => {
         el('opt-sfx').onchange = (e) => { Store.data.opt.sfx = e.target.checked; Store.save(); };
         el('opt-qual').onchange = (e) => { Store.data.opt.qual = e.target.value; Store.save(); };
         el('opt-dbg').onchange = (e) => { Store.data.opt.dbg = e.target.checked; Store.save(); };
-        
+
         if(Store.data.lvl > 1 || Store.data.score > 0) el('btn-continue').classList.remove('hidden');
     };
 
@@ -1433,17 +1433,17 @@ const UI = (() => {
         Store.save();
         toScreen('scr-start');
     };
-    
+
     const updateShopUI = () => {
         const plr = Game.getPlr();
         if (!plr) return; 
-        
+
         el('shop-status').innerHTML = 
             `**Score:** ${Store.data.score} Pts\n` +
             `**Melee Damage:** ${plr.meleeDmg}\n` +
             `**Max HP:** ${plr.maxHP}\n` +
             `**Movement Speed:** ${plr.currentSpeed}`;
-        
+
         const upgrades = [
             { id: 'btn-buy-damage', currentVal: plr.meleeDmg, baseCost: 500, inc: 5, label: 'Damage' },
             { id: 'btn-buy-hp', currentVal: plr.maxHP, baseCost: 1000, inc: 50, label: 'Max HP' },
@@ -1465,7 +1465,7 @@ const UI = (() => {
 
         Store.data.score -= cost;
         let newCost = cost + costStep;
-        
+
         if(type === 'damage') {
             plr.meleeDmg += inc; 
             Store.data.p_dmg = plr.meleeDmg; 
@@ -1478,7 +1478,7 @@ const UI = (() => {
             plr.currentSpeed += inc;
             Store.data.p_speed = plr.currentSpeed;
         }
-        
+
         btnEl.dataset.cost = newCost; 
         Store.save();
         updateShopUI();
@@ -1504,7 +1504,7 @@ const UI = (() => {
 
 // --- 10. PWA & BOOT (Unchanged) ---
 (function Boot() {
-    
+
     Math.seedrandom = function(seed) { 
         let _s = 0; for(let i=0; i<seed.length; i++) _s = Math.imul(31, _s) + seed.charCodeAt(i)|0;
         return () => (_s = (_s * 16807) % 2147483647, (_s-1) / 2147483646);
